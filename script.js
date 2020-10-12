@@ -23,6 +23,9 @@ const form = document.getElementById("form");
 //Variabel der refererer til den error message, som skal vises på hjemmesiden.
 const errorElement = document.getElementById("error");
 
+//Variabel der refererer til glem knappen. 
+const forgetBtn = document.getElementById("forgetInput");
+
 var messages = [];
 //Event listerner, som kontrollerer brugerens input, når man prøver at submitte. Hvis message arrayet er tomt, bliver formularen sendt, ellers bliver der vist
 // fejlbekseder afhængig af hvor der er fejl. 
@@ -86,6 +89,8 @@ form.addEventListener("submit", (e) =>{
         localStorage.setItem("gender", gender.value);
         userGender = localStorage.getItem("gender");
         console.log(userGender);    
+
+        console.log(localStorage);
     }
 })
 
@@ -101,10 +106,19 @@ form.addEventListener("keyup", (e) =>{
 
     //Viser på hjemmesiden hvilke data, der er gemt i localStorage ved at køre gennem et loop, der gennemløber de forskellige index i localStorage.  
 for (let i = 0; i < localStorage.length; i++){
-    const key = localStorage.key(i);
-    const value = localStorage.getItem(key);
+    let key = localStorage.key(i);
+    let value = localStorage.getItem(key);
 
     document.getElementById("user-mail").innerHTML += `${key}: ${value}<br />`;
 }
+
+//Tilføjer event listener til Glem knappen, som ved tryk sletter de gemte data i local storage. 
+forgetBtn.addEventListener("click", (e) => {
+    for(let i = localStorage.length-1; i >= 0; i--){
+        let key = localStorage.key(i);
+        localStorage.removeItem(key);
+    }
+        location.reload();
+})
 
 
